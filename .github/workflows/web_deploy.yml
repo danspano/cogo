@@ -1,5 +1,6 @@
 name: Deploy to GitHub Pages
-
+permissions:
+  contents: write
 on:
   push:
     # Update branch according from where you will be pushing the code
