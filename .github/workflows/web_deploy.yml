@@ -20,7 +20,7 @@ jobs:
 
       - run: flutter clean
       - run: flutter pub get
-      - run: flutter build web --release
+      - run: flutter build web --release --base-href "/cogo/"
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
