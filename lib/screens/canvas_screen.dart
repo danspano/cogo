@@ -54,15 +54,22 @@ class _CanvasScreenState extends State<CanvasScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: MouseRegion(
-        onHover: (event) => {
+      body: GestureDetector(
+        onPanUpdate: (details) => {
           setState(() {
-            pointer = event.localPosition;
+            pointer = details.localPosition;
           })
         },
-        child: CustomPaint(
-          size: MediaQuery.of(context).size,
-          painter: LinesPainter(coordinates: pointer),
+        child: MouseRegion(
+          onHover: (event) => {
+            setState(() {
+              pointer = event.localPosition;
+            })
+          },
+          child: CustomPaint(
+            size: MediaQuery.of(context).size,
+            painter: LinesPainter(coordinates: pointer),
+          ),
         ),
       ),
     );
