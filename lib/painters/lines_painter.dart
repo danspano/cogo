@@ -61,6 +61,7 @@ class LinesPainter extends CustomPainter {
                 .clamp(0.0, 1.0),
           )!;
         }
+
         canvas.drawPath(path, paint);
         path.reset();
         y += 20;
@@ -81,13 +82,25 @@ class LinesPainter extends CustomPainter {
     return HSVColor.fromAHSV(1.0, hue * 360, saturation, value).toColor();
   }
 
+  // This function takes the coordinates and the position of the current
+  // line and returns a scale factor of 1.0 to 1.2 depending on how
+  // close the line is to the coordinates. The closer the line is to the coordinates
+  // the higher the scale factor returned.
+  double getScaleFactor(Offset coordinates, Offset linePosition) {
+    return (1 -
+            sqrt(pow(coordinates.dx - linePosition.dx, 2) +
+                    pow(coordinates.dy - linePosition.dy, 2)) /
+                (sqrt(pow(coordinates.dx, 2) + pow(coordinates.dy, 2)) / 2))
+        .clamp(0.0, 1.0);
+  }
+
   // This function takes the color from the getColor function and
   // and uses the luminance value to pick a color lerp between
   // black and white.
   Color getBackgroundColor(Offset coordinates, Size size) {
     var color = getColor(coordinates, size);
     var luminance = color.computeLuminance();
-    return Color.lerp(color, Colors.white, luminance)!;
+    return Color.lerp(color, Colors.black, luminance)!;
   }
 
   // This function draws the background of the canvas using the color
